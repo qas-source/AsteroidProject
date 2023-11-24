@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    
+    GameManager gameManager;
 
     public static void main(String[] args) {
         launch(args);
@@ -34,5 +34,8 @@ public class Main extends Application {
         stage.setScene(scene);
 
         stage.show();
+
+
+        gameManager = new GameManager(draw, canvas);
     }
 }
