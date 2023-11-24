@@ -1,5 +1,6 @@
 package src;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -7,9 +8,21 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class ScreenManager {
 
-    private GraphicsContext pen;
+    private GraphicsContext draw;
+    private Canvas canvas;
 
-    public ScreenManager(GraphicsContext pen) {
-        this.pen = pen;
+    public ScreenManager(GraphicsContext draw, Canvas canvas) {
+        this.draw = draw;
+        this.canvas = canvas;
+    }
+
+// run drawable function
+    public void draw(Drawable object) {
+
+    }
+
+//refresh
+    public void clear() {
+        draw.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }
