@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Ship extends GameObject{
 
-    private double acceletation = 0.1;
+    final private double acceletation = 0.2;
+    final private double damping = 0.99;
+
 
     public Ship(int x, int y) {
         super(x, y);
@@ -30,6 +32,12 @@ public class Ship extends GameObject{
     @Override
     public void update() {
         super.update();
+        damp();
+    }
+
+    public void damp(){
+        velX *= damping;
+        velY *= damping;
     }
 
 }
