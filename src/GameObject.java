@@ -1,30 +1,45 @@
 package src;
 
 public class GameObject implements Drawable, Collidable{
-    @Override
+
+
+
+
+    int x = 0;
+
+    int y = 0;
+
+    int scale = 1;
+
+    int angle = 0;
+
+    Asset asset = new Asset();
+
+    public GameObject(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
+
     public int getX() {
-        return 0;
+        return x;
     }
 
-    @Override
     public int getY() {
-        return 0;
+        return y;
     }
 
-    @Override
-    public int scale() {
-        return 0;
+    public int getScale() {
+        return scale;
     }
 
-    @Override
-    public int angle() {
-        return 0;
+    public int getAngle() {
+        return angle;
     }
 
-    @Override
     public Asset getAsset() {
-        return null;
+        return asset;
     }
 
-//has a shape, shape
+
 }

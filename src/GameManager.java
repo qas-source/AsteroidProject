@@ -14,14 +14,18 @@ public class GameManager {
 
     ScreenManager screenManager;
 
+    ShipFactory shipFactory = new ShipFactory();
+
     ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     public GameManager(GraphicsContext draw, Canvas canvas){
         screenManager = new ScreenManager(draw, canvas);
+        gameObjects.add(shipFactory.makeShip(50, 50));
     }
 
     public void run(){
-        // Draw code
+        screenManager.clear();
+        screenManager.draw(gameObjects);
     }
 
 }

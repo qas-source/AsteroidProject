@@ -5,9 +5,9 @@ public interface Drawable {
    public int getX();
    public int getY();
 
-   public int scale();
+   public int getScale();
 
-   public int angle();
+   public int getAngle();
 
    public Asset getAsset();
 
