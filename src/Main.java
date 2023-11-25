@@ -2,12 +2,16 @@ package src;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -37,6 +41,27 @@ public class Main extends Application {
 
 
 
+        ArrayList<String> input = new ArrayList<String>();
+        scene.setOnKeyPressed(
+                new EventHandler<KeyEvent>()
+                {
+                    public void handle(KeyEvent e)
+                    {
+                        String code = e.getCode().toString();
+                        // only add once... prevent duplicates
+                        if ( !input.contains(code) )
+                            input.add( code );
+                    }
+                });
+        scene.setOnKeyReleased(
+                new EventHandler<KeyEvent>()
+                {
+                    public void handle(KeyEvent e)
+                    {
+                        String code = e.getCode().toString();
+                        input.remove( code );
+                    }
+                });
 
         gameManager = new GameManager(draw, canvas);
 
@@ -47,6 +72,7 @@ public class Main extends Application {
             @Override
             public void handle(long currentNanoTime) {
                 gameManager.run();
+                gameManager.controls(input);
             }
         }.start();
 

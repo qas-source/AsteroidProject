@@ -2,12 +2,12 @@ package src;
 
 public interface Drawable {
     //function to draw
-   public int getX();
-   public int getY();
+   public double getX();
+   public double getY();
 
-   public int getScale();
+   public double getScale();
 
-   public int getAngle();
+   public double getAngle();
 
    public Asset getAsset();
 

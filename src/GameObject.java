@@ -1,17 +1,26 @@
 package src;
 
+import java.util.ArrayList;
+
 public class GameObject implements Drawable, Collidable{
 
 
+    protected double accX = 0;
+
+    protected double accY = 0;
+
+    protected double velX = 0;
+
+    protected double velY = 0;
 
 
-    int x = 0;
+    protected double x = 0;
 
-    int y = 0;
+    protected double y = 0;
 
-    int scale = 1;
+    protected double scale = 1;
 
-    int angle = 0;
+    protected double angle = 0;
 
     Asset asset = new Asset();
 
@@ -21,19 +30,19 @@ public class GameObject implements Drawable, Collidable{
     }
 
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public int getScale() {
+    public double getScale() {
         return scale;
     }
 
-    public int getAngle() {
+    public double getAngle() {
         return angle;
     }
 
@@ -41,5 +50,15 @@ public class GameObject implements Drawable, Collidable{
         return asset;
     }
 
+    public void update() {
+        velX += accX;
+        velY += accY;
 
+        x += velX;
+        y += velY;
+    }
+
+    public void controls(ArrayList<String> input){
+        return;
+    }
 }

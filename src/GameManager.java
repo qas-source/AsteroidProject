@@ -24,8 +24,19 @@ public class GameManager {
     }
 
     public void run(){
+
+        for (GameObject gameObject: gameObjects) {
+            gameObject.update();
+        }
+
         screenManager.clear();
         screenManager.draw(gameObjects);
+    }
+
+    public void controls(ArrayList<String> input){
+        for (GameObject object: gameObjects) {
+            object.controls(input);
+        }
     }
 
 }
