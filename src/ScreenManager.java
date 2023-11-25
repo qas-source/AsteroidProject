@@ -26,6 +26,8 @@ public class ScreenManager {
 
         // Put in actual code that uses asset
         // This is sorta template stuff
+        //TODO add rotation
+        //TODO use asset for information
         draw.setFill(Color.WHITE);
         draw.fillRect(object.getX() - 10, object.getY() - 10, 20, 20);
 
