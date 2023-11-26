@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Ship extends GameObject{
 
-    final private double acceletation = 0.2;
+    final private double acceletation = 0.1;
     final private double damping = 0.99;
 
      private double angularAcc = 0;
@@ -21,37 +21,40 @@ public class Ship extends GameObject{
 
         accY = 0;
         accX = 0;
+        angularAcc = 0;
 
         if (input.contains("UP")){
             setComponents(acceletation);
         } if (input.contains("DOWN")){
             setComponents(-acceletation);
         } if (input.contains("LEFT")){
-            angularAcc -= 1;
+            angularAcc -= 0.5;
         } if (input.contains("RIGHT")){
-            angularAcc += 1;
+            angularAcc += 0.5;
         }
     }
 
     @Override
     public void update() {
         super.update();
-        damp();
-
         angularVel += angularAcc;
 
         angle += angularVel;
+        damp();
+
 
     }
 
     private void damp(){
         velX *= damping;
         velY *= damping;
-        angularVel *= 0.5;
+        angularVel *= 0.9;
+
+        System.out.println(angularVel);
     }
 
     private void setComponents(double scale){
-        accX += Math.cos(Math.toRadians(angle))*scale;
-        accY += Math.sin(Math.toRadians(angle))*scale;
+        accX += Math.sin(Math.toRadians(angle))*scale;
+        accY += -Math.cos(Math.toRadians(angle))*scale;
     }
 }
