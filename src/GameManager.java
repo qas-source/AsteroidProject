@@ -20,7 +20,7 @@ public class GameManager {
 
     public GameManager(GraphicsContext draw, Canvas canvas){
         screenManager = new ScreenManager(draw, canvas);
-        gameObjects.add(shipFactory.makeShip(50, 50));
+        gameObjects.add(shipFactory.makeShip(200, 200));
     }
 
     public void run(){
