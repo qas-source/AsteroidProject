@@ -49,8 +49,6 @@ public class Ship extends GameObject{
         velX *= damping;
         velY *= damping;
         angularVel *= 0.9;
-
-        System.out.println(angularVel);
     }
 
     private void setComponents(double scale){
