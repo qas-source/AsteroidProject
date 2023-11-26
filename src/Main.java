@@ -76,8 +76,8 @@ public class Main extends Application {
             }
         }.start();
 
-
         stage.show();
+
     }
 
 

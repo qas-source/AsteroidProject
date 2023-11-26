@@ -22,8 +22,7 @@ public class GameObject implements Drawable, Collidable{
 
     protected double angle = 0;
 
-    Asset asset = new Asset();
-
+    protected Asset asset;
     public GameObject(int x, int y){
         this.x = x;
         this.y = y;
@@ -60,5 +59,9 @@ public class GameObject implements Drawable, Collidable{
 
     public void controls(ArrayList<String> input){
         return;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
     }
 }

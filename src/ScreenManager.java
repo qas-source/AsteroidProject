@@ -20,18 +20,30 @@ public class ScreenManager {
         this.canvas = canvas;
     }
 
-// run drawable function
+// run drawable function. polymorphism!
     public void draw(Drawable object) {
         Asset asset = object.getAsset();
+        double x = object.getX();
+        double y = object.getY();
+        double angle = object.getAngle();
+     
 
-        // Put in actual code that uses asset
-        // This is sorta template stuff
-        //TODO add rotation
-        //TODO use asset for information
-        draw.setFill(Color.WHITE);
-        draw.fillRect(object.getX() - 10, object.getY() - 10, 20, 20);
+        draw.save(); //Saves current state of the graphics context
+    
+        //Rotate the coordinate system
+        draw.translate(x, y);
+        draw.rotate(angle);
+       
+//Draw the object with the center at the new origin
 
+//Draw the lines
+        draw.setStroke(asset.getColor());
+        draw.setFill(asset.getColor());
+        for (Line line : asset.getLines()) { //for each line in the asset line array
+            draw.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+        }
 
+        draw.restore(); //restores
     }
     
     public void draw(ArrayList<GameObject> objects){
