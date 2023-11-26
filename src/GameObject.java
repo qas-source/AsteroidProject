@@ -20,7 +20,7 @@ public class GameObject implements Drawable, Collidable{
 
     protected double scale = 1;
 
-    protected double angle = 0;
+    protected double angle = 90;
 
     protected Asset asset;
     public GameObject(int x, int y){
