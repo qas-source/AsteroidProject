@@ -43,24 +43,16 @@ public class Main extends Application {
 
         ArrayList<String> input = new ArrayList<String>();
         scene.setOnKeyPressed(
-                new EventHandler<KeyEvent>()
-                {
-                    public void handle(KeyEvent e)
-                    {
-                        String code = e.getCode().toString();
-                        // only add once... prevent duplicates
-                        if ( !input.contains(code) )
-                            input.add( code );
-                    }
+                e -> {
+                    String code = e.getCode().toString();
+                    // only add once... prevent duplicates
+                    if ( !input.contains(code) )
+                        input.add( code );
                 });
         scene.setOnKeyReleased(
-                new EventHandler<KeyEvent>()
-                {
-                    public void handle(KeyEvent e)
-                    {
-                        String code = e.getCode().toString();
-                        input.remove( code );
-                    }
+                e -> {
+                    String code = e.getCode().toString();
+                    input.remove( code );
                 });
 
         gameManager = new GameManager(draw, canvas);

@@ -12,8 +12,8 @@ public class Ship extends GameObject{
 
 
 
-    public Ship(int x, int y) {
-        super(x, y);
+    public Ship(int x, int y, double screenWidth, double screenHeight) {
+        super(x, y, screenWidth, screenHeight);
     }
 
     @Override

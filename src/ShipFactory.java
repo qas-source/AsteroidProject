@@ -4,6 +4,14 @@ import javafx.scene.paint.Color;
 
 public class ShipFactory {
 
+    private double screenWidth;
+
+    private double screenHeight;
+
+    public ShipFactory(double screenWidth, double screenHeight) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+    }
 
     public Ship makeShip(int x, int y) {
         //Ship Shape
@@ -17,7 +25,7 @@ public class ShipFactory {
 
     Asset shipAsset = new Asset(lines, color);
     
-    Ship newShip = new Ship(x,y);
+    Ship newShip = new Ship(x,y, screenWidth, screenHeight);
     newShip.setAsset(shipAsset);  
 
 
