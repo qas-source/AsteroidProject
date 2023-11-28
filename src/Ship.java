@@ -25,9 +25,10 @@ public class Ship extends GameObject{
 
         if (input.contains("UP")){
             setComponents(acceletation);
-        } if (input.contains("DOWN")){
-            setComponents(-acceletation);
-        } if (input.contains("LEFT")){
+        }// if (input.contains("DOWN")){
+           // setComponents(-acceletation);
+        //}
+        if (input.contains("LEFT")){
             angularAcc -= 0.5;
         } if (input.contains("RIGHT")){
             angularAcc += 0.5;

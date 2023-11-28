@@ -24,17 +24,17 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Asteroids");
-        Canvas canvas = new Canvas(500, 500);
+        Canvas canvas = new Canvas(1000, 700);
         GraphicsContext draw = canvas.getGraphicsContext2D();
         draw.setFill(Color.BLACK);
-        draw.fillRect(0, 0, 500, 500);
+        draw.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // create a Group
         Group group = new Group(canvas);
 
 
         // create a scene
-        Scene scene = new Scene(group, 500, 500);
+        Scene scene = new Scene(group, canvas.getWidth(), canvas.getHeight());
 
         // set the scene
         stage.setScene(scene);
