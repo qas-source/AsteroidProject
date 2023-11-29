@@ -21,15 +21,15 @@ public class ShipFactory {
             new Line(10, 10, 0, -10)  // Right side
         };
         
-    Color color = Color.WHITE;
+        Color color = Color.WHITE;
 
-    Asset shipAsset = new Asset(lines, color);
-    
-    Ship newShip = new Ship(x,y, screenWidth, screenHeight);
-    newShip.setAsset(shipAsset);  
+        Asset shipAsset = new Asset(lines, color);
+
+        Ship newShip = new Ship(x,y, screenWidth, screenHeight);
+        newShip.setAsset(shipAsset);
 
 
 
-    return newShip;
+        return newShip;
     }
 }
