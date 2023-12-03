@@ -16,8 +16,8 @@ public class CollisionManager {
                 if (!objectA.equals(objectB)){
                     boolean collided = collide(objectA, objectB);
                     if (collided) {
-                        objectA.collided();
-                        objectB.collided();
+                        objectA.collided(objectB.getIdentification());
+                        objectB.collided(objectA.getIdentification());
                     }
                 }
             }

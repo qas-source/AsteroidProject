@@ -10,10 +10,14 @@ public class Ship extends GameObject{
      private double angularAcc = 0;
      private double angularVel = 0;
 
+     private boolean previousShooting = false;
+     private Gun gun;
 
 
-    public Ship(int x, int y, double screenWidth, double screenHeight) {
-        super(x, y, screenWidth, screenHeight);
+
+    public Ship(int x, int y, double screenWidth, double screenHeight, GameManager gameManager) {
+        super(x, y, screenWidth, screenHeight, gameManager);
+        gun = new Gun(gameManager);
     }
 
     @Override
@@ -23,15 +27,22 @@ public class Ship extends GameObject{
         accX = 0;
         angularAcc = 0;
 
+
+
         if (input.contains("UP")){
             setComponents(acceletation);
-        }// if (input.contains("DOWN")){
-           // setComponents(-acceletation);
-        //}
+        }
         if (input.contains("LEFT")){
             angularAcc -= 0.5;
         } if (input.contains("RIGHT")){
             angularAcc += 0.5;
+        } if (input.contains("SPACE")){
+            if (!previousShooting){
+                gun.shoot(x, y, angle, screenWidth, screenHeight, "Bullet");
+                previousShooting = true; //TODO make it only shoot once per click
+            } else {
+                previousShooting = false;
+            }
         }
     }
 
@@ -55,5 +66,18 @@ public class Ship extends GameObject{
     private void setComponents(double value){
         accX += Math.sin(Math.toRadians(angle))*value;
         accY += -Math.cos(Math.toRadians(angle))*value;
+    }
+
+    @Override
+    public String getIdentification() {
+        return "Ship";
+    }
+
+    @Override
+    public void collided(String indentification) {
+        if (indentification.matches("Bullet")){
+            return;
+        }
+        super.collided(indentification);
     }
 }

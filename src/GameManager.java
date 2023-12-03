@@ -18,15 +18,22 @@ public class GameManager {
 
     private ArrayList<Ship> players = new ArrayList<>();
 
+    private ArrayList<GameObject> toDelete = new ArrayList<>();
+    private ArrayList<GameObject> toAdd = new ArrayList<>();
+
     public GameManager(GraphicsContext draw, Canvas canvas){
-        obstacleFactory = new ObstacleFactory(canvas.getWidth(), canvas.getHeight());
-        shipFactory = new ShipFactory(canvas.getWidth(), canvas.getHeight());
+        obstacleFactory = new ObstacleFactory(canvas.getWidth(), canvas.getHeight(), this);
+        shipFactory = new ShipFactory(canvas.getWidth(), canvas.getHeight(), this);
         screenManager = new ScreenManager(draw, canvas);
         players.add(shipFactory.makeShip(200, 200));
         gameObjects.addAll(players);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             gameObjects.add(obstacleFactory.makeObstacle(1));
+        }
+
+        for (int i = 0; i < 1; i++) {
+            gameObjects.add(obstacleFactory.makeObstacle(2));
         }
 
     }
@@ -36,6 +43,10 @@ public class GameManager {
         for (GameObject gameObject: gameObjects) {
             gameObject.update();
         }
+        gameObjects.addAll(toAdd);
+        gameObjects.removeAll(toDelete);
+        toAdd.clear();
+        toDelete.clear();
 
         collisionManager.collide(gameObjects);
 
@@ -52,4 +63,13 @@ public class GameManager {
     public ArrayList<Ship> getPlayers() {
         return players;
     }
+
+    public void  addObject(GameObject object) {
+        toAdd.add(object);
+    }
+
+    public void  removeObject(GameObject object) {
+        toDelete.add(object);
+    }
+
 }

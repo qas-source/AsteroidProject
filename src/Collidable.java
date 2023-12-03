@@ -5,5 +5,7 @@ public interface Collidable {
 
     Vector[] getVertecies();
 
-    void collided();
+    void collided(String indentification);
+
+    String getIdentification();
 }

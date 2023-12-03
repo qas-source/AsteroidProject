@@ -28,12 +28,15 @@ public class GameObject implements Drawable, Collidable{
 
     protected double angle = 90;
 
+    protected final GameManager gameManager;
+
     protected Asset asset;
-    public GameObject(int x, int y, double screenWidth, double screenHeight){
+    public GameObject(double x, double y, double screenWidth, double screenHeight, GameManager gameManager){
         this.x = x;
         this.y = y;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.gameManager = gameManager;
     }
 
 
@@ -100,7 +103,12 @@ public class GameObject implements Drawable, Collidable{
     }
 
     @Override
-    public void collided() {
+    public void collided(String indentification) {
         asset.setColor(Color.RED);
+    }
+
+    @Override
+    public String getIdentification() {
+        return "";
     }
 }

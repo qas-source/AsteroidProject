@@ -8,9 +8,12 @@ public class ShipFactory {
 
     private double screenHeight;
 
-    public ShipFactory(double screenWidth, double screenHeight) {
+    private GameManager gameManager;
+
+    public ShipFactory(double screenWidth, double screenHeight, GameManager gameManager) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.gameManager = gameManager;
     }
 
     public Ship makeShip(int x, int y) {
@@ -25,7 +28,7 @@ public class ShipFactory {
 
         Asset shipAsset = new Asset(lines, color);
 
-        Ship newShip = new Ship(x,y, screenWidth, screenHeight);
+        Ship newShip = new Ship(x,y, screenWidth, screenHeight, gameManager);
         newShip.setAsset(shipAsset);
 
 
