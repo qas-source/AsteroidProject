@@ -7,19 +7,28 @@ import java.util.ArrayList;
 
 public class GameManager {
 
-    ScreenManager screenManager;
+    private final ScreenManager screenManager;
 
-    ShipFactory shipFactory;
+    private ShipFactory shipFactory;
+    private ObstacleFactory obstacleFactory;
 
-    ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private final CollisionManager collisionManager = new CollisionManager();
 
-    ArrayList<Ship> players = new ArrayList<>();
+    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
+
+    private ArrayList<Ship> players = new ArrayList<>();
 
     public GameManager(GraphicsContext draw, Canvas canvas){
+        obstacleFactory = new ObstacleFactory(canvas.getWidth(), canvas.getHeight());
         shipFactory = new ShipFactory(canvas.getWidth(), canvas.getHeight());
         screenManager = new ScreenManager(draw, canvas);
         players.add(shipFactory.makeShip(200, 200));
         gameObjects.addAll(players);
+
+        for (int i = 0; i < 1; i++) {
+            gameObjects.add(obstacleFactory.makeObstacle(1));
+        }
+
     }
 
     public void run(){
@@ -28,6 +37,8 @@ public class GameManager {
             gameObject.update();
         }
 
+        collisionManager.collide(gameObjects);
+        
         screenManager.clear();
         screenManager.draw(gameObjects);
     }
@@ -38,4 +49,7 @@ public class GameManager {
         }
     }
 
+    public ArrayList<Ship> getPlayers() {
+        return players;
+    }
 }

@@ -1,5 +1,7 @@
 package src;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 public class GameObject implements Drawable, Collidable{
@@ -63,6 +65,8 @@ public class GameObject implements Drawable, Collidable{
         y += velY;
 
         loopEdge();
+
+        asset.setColor(Color.WHITE);
     }
 
     private void loopEdge() {
@@ -76,5 +80,27 @@ public class GameObject implements Drawable, Collidable{
 
     public void setAsset(Asset asset) {
         this.asset = asset;
+    }
+
+    @Override
+    public Vector[] getVertecies() {
+        Vector[] vertecies = asset.getVertecies();
+        // Transform Points
+
+        Vector[] vecteciesTransfomred = new Vector[vertecies.length];
+
+        for (int i = 0; i < vertecies.length; i++) {
+            double angleRad = Math.toRadians(angle);
+            double vertexX = vertecies[i].x*Math.cos(angleRad) - vertecies[i].y*Math.sin(angleRad);
+            double vertexY = vertecies[i].x*Math.sin(angleRad) + vertecies[i].y*Math.cos(angleRad);
+            vecteciesTransfomred[i] = new Vector(vertexX, vertexY).add(new Vector(x, y));
+        }
+
+        return vecteciesTransfomred;
+    }
+
+    @Override
+    public void collided() {
+        asset.setColor(Color.RED);
     }
 }

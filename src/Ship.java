@@ -52,8 +52,8 @@ public class Ship extends GameObject{
         angularVel *= 0.9;
     }
 
-    private void setComponents(double scale){
-        accX += Math.sin(Math.toRadians(angle))*scale;
-        accY += -Math.cos(Math.toRadians(angle))*scale;
+    private void setComponents(double value){
+        accX += Math.sin(Math.toRadians(angle))*value;
+        accY += -Math.cos(Math.toRadians(angle))*value;
     }
 }

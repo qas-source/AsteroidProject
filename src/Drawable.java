@@ -2,14 +2,15 @@ package src;
 
 public interface Drawable {
     //function to draw
-   public double getX();
-   public double getY();
 
-   public double getScale();
+   double getX();
+   double getY();
 
-   public double getAngle();
+   double getScale();
 
-   public Asset getAsset();
+   double getAngle();
+
+   Asset getAsset();
 
 
     // refersh screen

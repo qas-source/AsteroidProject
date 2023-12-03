@@ -17,7 +17,7 @@ public class ShipFactory {
         //Ship Shape
         Line[] lines = {
             new Line(-10, 10, 10, 10), // Base of the triangle
-            new Line(-10, 10, 0, -10), // Left side
+            new Line( 0, -10, -10, 10), // Left side
             new Line(10, 10, 0, -10)  // Right side
         };
         

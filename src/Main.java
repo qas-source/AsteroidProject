@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Main extends Application {
-
     GameManager gameManager;
 
     public static void main(String[] args) {
@@ -24,6 +23,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("Asteroids");
         Canvas canvas = new Canvas(1000, 700);
+
         GraphicsContext draw = canvas.getGraphicsContext2D();
         draw.setFill(Color.BLACK);
         draw.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
