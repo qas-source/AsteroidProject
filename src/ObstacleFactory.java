@@ -2,6 +2,8 @@ package src;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -18,21 +20,32 @@ public class ObstacleFactory {
     }
 
     public Asteroid makeObstacle(int level) { //Add level system
-        //Asteroid Shape TODO improve shape
-        Line[] lines = {
-                new Line(20, 0, 14, 14),
-                new Line(14, 14, 0, 20),
-                new Line(0, 20, -14, 14),
-                new Line(-14, 14, -20, 0),
-                new Line(-20, 0, -14, -14),
-                new Line(-14, -14, 0, -20),
-                new Line(0, -20, 14, -14),
-                new Line(14, -14, 20, 0)
-        };
+
+     // Create a list to store lines
+        List<Line> lines = new ArrayList<>();
+
+        // Define the number of sides for the asteroid
+        int sides = random.nextInt(5, 10); // Random number of sides between 5 and 9
+
+        // Generate random points for the asteroid
+        double[] xPoints = new double[sides];
+        double[] yPoints = new double[sides];
+        for (int i = 0; i < sides; i++) {
+            double angle = 2 * Math.PI / sides * i;
+            double radius = random.nextDouble(10, 20);
+            xPoints[i] = radius * Math.cos(angle);
+            yPoints[i] = radius * Math.sin(angle);
+        }
+
+        // Create lines connecting these points
+        for (int i = 0; i < sides; i++) {
+            int nextIndex = (i + 1) % sides;
+            lines.add(new Line(xPoints[i], yPoints[i], xPoints[nextIndex], yPoints[nextIndex]));
+        }
 
         Color color = Color.WHITE;
 
-        Asset asteroidAsset = new Asset(lines, color);
+        Asset asteroidAsset = new Asset(lines.toArray(new Line[0]), color);
 
         double angle = random.nextDouble(360);
 
