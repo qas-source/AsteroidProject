@@ -25,7 +25,7 @@ public class GameManager {
         players.add(shipFactory.makeShip(200, 200));
         gameObjects.addAll(players);
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 5; i++) {
             gameObjects.add(obstacleFactory.makeObstacle(1));
         }
 
@@ -38,7 +38,7 @@ public class GameManager {
         }
 
         collisionManager.collide(gameObjects);
-        
+
         screenManager.clear();
         screenManager.draw(gameObjects);
     }
