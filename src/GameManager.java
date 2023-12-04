@@ -22,11 +22,15 @@ public class GameManager {
     private Difficulty difficulty = Difficulty.EASY;
     private int obstacleSpawnTimer = 0;
     private ScoreManager scoreManager;
+    private HighScoreManager highScoreManager;
+    
 
-    public GameManager(GraphicsContext draw, Canvas canvas){
+
+    public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager){
         this.currentState = GameState.MENU;
-        this.menuManager = new MenuManager(draw, this);
         this.scoreManager = new ScoreManager();
+        this.highScoreManager = highScoreManager;
+        this.menuManager = new MenuManager(draw, this, highScoreManager);
         obstacleFactory = new ObstacleFactory(canvas.getWidth(), canvas.getHeight(), this);
         shipFactory = new ShipFactory(canvas.getWidth(), canvas.getHeight(), this);
         screenManager = new ScreenManager(draw, canvas);
@@ -69,6 +73,13 @@ public class GameManager {
 
     public void incrementScore(int points) {
         scoreManager.addScore(points);
+    }
+
+    public void checkAndUpdateHighScore() {
+        int currentScore = scoreManager.getScore();
+        if (currentScore > highScoreManager.getHighScore()) {
+            highScoreManager.setHighScore(currentScore);
+        }
     }
 
     private void updateObstacleSpawnTimer() {

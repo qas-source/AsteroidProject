@@ -54,9 +54,9 @@ public class Main extends Application {
                     input.remove( code );
                 });
 
-        gameManager = new GameManager(draw, canvas);
-
-
+                HighScoreManager highScoreManager = new HighScoreManager();
+                gameManager = new GameManager(draw, canvas, highScoreManager);
+      
         //final long startNanoTime = System.nanoTime(); // Use to get time since started
 
         new AnimationTimer() {

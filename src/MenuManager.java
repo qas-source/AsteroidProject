@@ -10,11 +10,14 @@ public class MenuManager {
     private GameManager gameManager;
     private GraphicsContext draw;
     private GameState currentState;
+    private HighScoreManager highScoreManager;
 
-    public MenuManager(GraphicsContext draw, GameManager gameManager) {
+
+    public MenuManager(GraphicsContext draw, GameManager gameManager, HighScoreManager highScoreManager) {
         this.draw = draw;
         this.gameManager = gameManager;
         this.currentState = GameState.MENU;
+        this.highScoreManager = highScoreManager;
     }
     
     public void drawMenu() {
@@ -31,6 +34,7 @@ public class MenuManager {
         draw.fillText("1: Easy", 100, 140);
         draw.fillText("2: Medium", 100, 180);
         draw.fillText("3: Hard", 100, 220);
+        draw.fillText("High Score: " + highScoreManager.getHighScore(), 100, 260);
     }
 
     public void handleInput(ArrayList<String> input) {
