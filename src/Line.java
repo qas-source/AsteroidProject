@@ -15,4 +15,11 @@ public class Line {
     public double getStartY() { return startY; }
     public double getEndX() { return endX; }
     public double getEndY() { return endY; }
+
+    public void shift(Vector displacement){
+        startX += displacement.x;
+        endX += displacement.x;
+        startY += displacement.y;
+        endY += displacement.y;
+    }
 }

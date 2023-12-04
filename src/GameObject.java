@@ -78,9 +78,7 @@ public class GameObject implements Drawable, Collidable{
     }
 
     public void update() {
-        if (shouldSplit) {
-            splitObject(); 
-        }
+        asset.update();
         velX += accX;
         velY += accY;
 
@@ -112,7 +110,7 @@ public class GameObject implements Drawable, Collidable{
         return customVertices.toArray(new Vector[0]);
     } else {
         // Logic for default vertices as per the original object
-        Vector[] vertices = asset.getVertecies();
+        Vector[] vertices = asset.getVertices();
         Vector[] transformedVertices = new Vector[vertices.length];
 
         for (int i = 0; i < vertices.length; i++) {
@@ -129,7 +127,7 @@ public class GameObject implements Drawable, Collidable{
     @Override
     public void collided(String indentification) {
         asset.setColor(Color.RED);
-        splitObject();
+        asset.splitObject();
     }
 //WORKING ON
 private void splitObject() {

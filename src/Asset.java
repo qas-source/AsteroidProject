@@ -5,17 +5,22 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class Asset {
-    private Line[] lines;
-    private Vector[] vertecies;
+    private final Line[] lines;
+    private final Vector[] vertices;
+    private Vector[] splitVectors;
     private Color color;
-   
+
+    private final double speed = 0.5;
+
+    private boolean splitting = false;
+
     public Asset(Line[] lines, Color color) {
         this.lines = lines;
         this.color = color;
-        vertecies = new Vector[lines.length];
+        vertices = new Vector[lines.length];
         for (int i = 0; i < lines.length; i++) {
             Line line = lines[i];
-            vertecies[i] = new Vector(line.getStartX(), line.getStartY());
+            vertices[i] = new Vector(line.getStartX(), line.getStartY());
         }
 
     }
@@ -27,7 +32,7 @@ public class Asset {
         }
         this.lines = lineArray.toArray(new Line[0]);
         this.color = color;
-        vertecies = lines;
+        vertices = lines;
     }
 
     // Getters
@@ -45,9 +50,24 @@ public class Asset {
         this.color = color;
     }
 
-    public Vector[] getVertecies() {
+    public Vector[] getVertices() {
+        return vertices;
+    }
 
+    public void update() {
+        if (splitting) {
+            for (int i = 0; i < lines.length; i++) {
+                lines[i].shift(splitVectors[i]);
+            }
+        }
+    }
 
-        return vertecies;
+    public void splitObject() {
+        splitting = true;
+        splitVectors = new Vector[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            Line line = lines[i];
+            splitVectors[i] = new Vector((line.getStartX() + line.getEndX()) / 2, (line.getStartY() + line.getEndY()) / 2).normalize().multiply(speed);
+        }
     }
 }
