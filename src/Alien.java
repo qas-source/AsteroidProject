@@ -86,6 +86,8 @@ public class Alien extends GameObject {
             asset.setColor(Color.WHITE);
         } else {
             asset.setColor(Color.CYAN);
+            gameManager.incrementScore(1);
+            initiateSplit();
         }
     }
 

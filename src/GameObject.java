@@ -3,6 +3,8 @@ package src;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GameObject implements Drawable, Collidable{
 
@@ -29,14 +31,29 @@ public class GameObject implements Drawable, Collidable{
     protected double angle = 90;
 
     protected final GameManager gameManager;
+    private List<Vector> customVertices = null;
+
+    private boolean shouldSplit = false;
+    private Vector center;
+    private double splitSpeed = 1.0;
 
     protected Asset asset;
+
     public GameObject(double x, double y, double screenWidth, double screenHeight, GameManager gameManager){
         this.x = x;
         this.y = y;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.gameManager = gameManager;
+    }
+
+    public GameObject(List<Vector> vertices, double x, double y, double screenWidth, double screenHeight, GameManager gameManager) {
+        this.x = x;
+        this.y = y;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.gameManager = gameManager;
+        this.customVertices = new ArrayList<>(vertices); // Use the provided vertices
     }
 
 
@@ -61,6 +78,9 @@ public class GameObject implements Drawable, Collidable{
     }
 
     public void update() {
+        if (shouldSplit) {
+            splitObject(); 
+        }
         velX += accX;
         velY += accY;
 
@@ -86,25 +106,51 @@ public class GameObject implements Drawable, Collidable{
     }
 
     @Override
-    public Vector[] getVertecies() {
-        Vector[] vertecies = asset.getVertecies();
-        // Transform Points
+  public Vector[] getVertecies() {
+    if (customVertices != null) {
+        // Use custom vertices for split objects
+        return customVertices.toArray(new Vector[0]);
+    } else {
+        // Logic for default vertices as per the original object
+        Vector[] vertices = asset.getVertecies();
+        Vector[] transformedVertices = new Vector[vertices.length];
 
-        Vector[] vecteciesTransfomred = new Vector[vertecies.length];
-
-        for (int i = 0; i < vertecies.length; i++) {
+        for (int i = 0; i < vertices.length; i++) {
             double angleRad = Math.toRadians(angle);
-            double vertexX = vertecies[i].x*Math.cos(angleRad) - vertecies[i].y*Math.sin(angleRad);
-            double vertexY = vertecies[i].x*Math.sin(angleRad) + vertecies[i].y*Math.cos(angleRad);
-            vecteciesTransfomred[i] = new Vector(vertexX, vertexY).add(new Vector(x, y));
+            double vertexX = vertices[i].x * Math.cos(angleRad) - vertices[i].y * Math.sin(angleRad);
+            double vertexY = vertices[i].x * Math.sin(angleRad) + vertices[i].y * Math.cos(angleRad);
+            transformedVertices[i] = new Vector(vertexX + x, vertexY + y); // Transformed vertices based on object position and rotation
         }
 
-        return vecteciesTransfomred;
+        return transformedVertices;
     }
+}
 
     @Override
     public void collided(String indentification) {
         asset.setColor(Color.RED);
+        splitObject();
+    }
+//WORKING ON
+private void splitObject() {
+    Vector[] vertices = getVertecies();
+    Vector[] newVertices = new Vector[vertices.length];
+
+    for (int i = 0; i < vertices.length; i++) {
+        Vector start = vertices[i];
+        Vector end = vertices[(i + 1) % vertices.length];
+        Vector midPoint = new Vector((start.x + end.x) / 2, (start.y + end.y) / 2);
+
+        Vector splitVector = midPoint.sub(center).normalize().multiply(splitSpeed);
+        newVertices[i] = start.add(splitVector);
+        newVertices[(i + 1) % vertices.length] = end.add(splitVector);
+    }
+
+    customVertices = new ArrayList<>(Arrays.asList(newVertices));
+}
+    
+    protected void initiateSplit() {
+        this.shouldSplit = true;
     }
 
     @Override

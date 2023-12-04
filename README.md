@@ -1,4 +1,3 @@
-
 # Asteroid in Javafx
 
 The asteroid game in JavaFX pays homage to the classic arcade game originally developed by Atari in 1979. In this JavaFX adaptation, players control a triangular spaceship with the primary objective of destroying asteroids by shooting at them. The game introduces a twist by incorporating new motion mechanics, power-ups, and other features.

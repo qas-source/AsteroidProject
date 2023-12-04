@@ -37,6 +37,9 @@ public class Asteroid extends GameObject{
             asset.setColor(Color.RED);
         } else {
             asset.setColor(Color.BLUEVIOLET);
+            initiateSplit();
+            gameManager.incrementScore(1);
         }
+        //
     }
 }

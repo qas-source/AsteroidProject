@@ -15,6 +15,7 @@ public class ScreenManager {
     private GraphicsContext draw;
     private Canvas canvas;
 
+
     public ScreenManager(GraphicsContext draw, Canvas canvas) {
         this.draw = draw;
         this.canvas = canvas;
@@ -57,5 +58,9 @@ public class ScreenManager {
         draw.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         draw.setFill(Color.BLACK);
         draw.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    public GraphicsContext getGraphicsContext() {
+        return draw;
     }
 }

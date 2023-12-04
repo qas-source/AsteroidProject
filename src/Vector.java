@@ -35,4 +35,8 @@ public class Vector {
     public Vector add(Vector other) {
         return new Vector(x + other.x, y + other.y);
     }
+
+    public Vector multiply(double scalar) {
+        return new Vector(this.x * scalar, this.y * scalar);
+    }
 }
