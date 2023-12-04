@@ -124,11 +124,14 @@ public class GameObject implements Drawable, Collidable{
     }
 }
 
-    @Override
-    public void collided(String indentification) {
-        asset.setColor(Color.RED);
-        asset.splitObject();
+@Override
+public void collided(String identification) {
+    if (this instanceof Asteroid || this instanceof Alien) {
+        if (!identification.equals("Ship")) {
+            initiateSplit();
+        }
     }
+}
 //WORKING ON
 private void splitObject() {
     Vector[] vertices = getVertecies();
@@ -147,9 +150,11 @@ private void splitObject() {
     customVertices = new ArrayList<>(Arrays.asList(newVertices));
 }
     
-    protected void initiateSplit() {
-        this.shouldSplit = true;
+protected void initiateSplit() {
+    if (this instanceof Asteroid || this instanceof Alien) {
+        asset.splitObject();
     }
+}
 
     @Override
     public String getIdentification() {

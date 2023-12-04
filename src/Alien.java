@@ -52,6 +52,9 @@ public class Alien extends GameObject {
         Ship player = gameManager.getPlayers().get(0); // TODO make 2 player friendly(choose random index)
         accX = ( player.x - x + 30 ) / screenWidth * acceletation;
         accY = ( player.y - y + 40) / screenHeight * acceletation;
+        if (asset.isSplittingComplete()) {
+            gameManager.removeObject(this); // Remove the alien after splitting
+        }
 
         if (accX > 2) {
             accX = 2;
@@ -68,6 +71,7 @@ public class Alien extends GameObject {
         damp();
 
         super.update();
+
         shoot();
 
         asset.setColor(Color.GREEN);
@@ -79,15 +83,13 @@ public class Alien extends GameObject {
     }
 
     @Override
-    public void collided(String indentification) {
-        if (indentification.matches("Ship")){
+    public void collided(String identification) {
+        if (identification.matches("Ship")) {
             asset.setColor(Color.DARKGREEN);
-        } else if (indentification.matches("Alien")) {
-            asset.setColor(Color.WHITE);
         } else {
             asset.setColor(Color.CYAN);
+            asset.splitObject(); 
             gameManager.incrementScore(1);
-            initiateSplit();
         }
     }
 

@@ -9,7 +9,8 @@ public class Asset {
     private final Vector[] vertices;
     private Vector[] splitVectors;
     private Color color;
-
+    private int splitDuration = 0;
+    private final int splitTimeLimit = 30;
     private final double speed = 0.5;
 
     private boolean splitting = false;
@@ -56,18 +57,27 @@ public class Asset {
 
     public void update() {
         if (splitting) {
+            splitDuration++;
             for (int i = 0; i < lines.length; i++) {
                 lines[i].shift(splitVectors[i]);
+            }
+            if (splitDuration >= splitTimeLimit) {
+                splitting = false; // Stop splitting after duration
             }
         }
     }
 
     public void splitObject() {
         splitting = true;
+        splitDuration = 0;
         splitVectors = new Vector[lines.length];
         for (int i = 0; i < lines.length; i++) {
             Line line = lines[i];
             splitVectors[i] = new Vector((line.getStartX() + line.getEndX()) / 2, (line.getStartY() + line.getEndY()) / 2).normalize().multiply(speed);
         }
+    }
+
+    public boolean isSplittingComplete() {
+        return !splitting && splitDuration > 0;
     }
 }

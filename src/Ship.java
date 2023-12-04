@@ -2,6 +2,8 @@ package src;
 
 import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
+
 public class Ship extends GameObject{
 
     final private double acceletation = 0.1;
@@ -13,7 +15,13 @@ public class Ship extends GameObject{
      private boolean previousShooting = false;
      private Gun gun;
      private boolean isSpacePressed = false;
-
+     private int hitCount = 0;
+     private final int maxHits = 3;
+    private final Color hitColor = Color.RED;
+    private final Color normalColor = Color.WHITE;
+    private boolean isInvulnerable = false;
+    private final long invulnerabilityDuration = 2000; 
+    private long lastHitTime = 0;
 
 
     public Ship(int x, int y, double screenWidth, double screenHeight, GameManager gameManager) {
@@ -55,8 +63,10 @@ public class Ship extends GameObject{
 
         angle += angularVel;
         damp();
-
-
+        if (isInvulnerable && System.currentTimeMillis() - lastHitTime > invulnerabilityDuration) {
+            isInvulnerable = false;
+            asset.setColor(normalColor); // Reset color after invulnerability
+        }
     }
 
     private void damp(){
@@ -76,10 +86,27 @@ public class Ship extends GameObject{
     }
 
     @Override
-    public void collided(String indentification) {
-        if (indentification.matches("Bullet")){
-            return;
+    public void collided(String identification) {
+        if (identification.equals("Bullet") || isInvulnerable) {
+            return; // Ignore collisions if invulnerable or hit by Bullet
         }
-        super.collided(indentification);
+
+        hitCount++;
+        lastHitTime = System.currentTimeMillis();
+        isInvulnerable = true;
+        flashRed();
+
+        if (hitCount >= maxHits) {
+            gameManager.getGameOverManager().endGame();
+        }
+    }
+
+    private void flashRed() {
+        asset.setColor(hitColor); // Flash red on hit
+    }
+
+    private void gameOver() {
+        // Game over logic
+        gameManager.getGameOverManager().endGame();
     }
 }

@@ -3,6 +3,7 @@ package src;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,18 @@ public class ScreenManager {
         for (Drawable object: objects) {
             draw(object);
         }
+    }
+
+    public void displayGameOver(int score) {
+        // Clear the screen
+        clear();
+
+        // Set up graphics for displaying game over text
+        draw.setFill(Color.WHITE);
+        draw.setFont(new Font(36));
+        draw.fillText("Game Over", canvas.getWidth() / 2 - 100, canvas.getHeight() / 2 - 50);
+        draw.setFont(new Font(24));
+        draw.fillText("Score: " + score, canvas.getWidth() / 2 - 50, canvas.getHeight() / 2);
     }
 
 //refresh

@@ -24,6 +24,9 @@ public class Asteroid extends GameObject{
     public void update() {
         super.update();
         angle += spinVel;
+        if (asset.isSplittingComplete()) {
+            gameManager.removeObject(this); // Remove the asteroid after splitting
+        }
     }
 
     @Override
@@ -35,11 +38,13 @@ public class Asteroid extends GameObject{
     public void collided(String indentification) {
         if (indentification.matches("Ship")){
             asset.setColor(Color.RED);
+            initiateSplit();
         } else {
             asset.setColor(Color.BLUEVIOLET);
             initiateSplit();
             gameManager.incrementScore(1);
+            asset.splitObject();
         }
-        //
+        
     }
 }

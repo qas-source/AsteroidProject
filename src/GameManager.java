@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import src.GameState;
 import src.Difficulty;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameManager {
@@ -23,14 +24,16 @@ public class GameManager {
     private int obstacleSpawnTimer = 0;
     private ScoreManager scoreManager;
     private HighScoreManager highScoreManager;
-    
-
+    private GameOverManager gameOverManager;
+    private List<GameObject> gameObjectsToAdd = new ArrayList<>();
+    private List<GameObject> gameObjectsToRemove = new ArrayList<>();
 
     public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager){
         this.currentState = GameState.MENU;
         this.scoreManager = new ScoreManager();
         this.highScoreManager = highScoreManager;
         this.menuManager = new MenuManager(draw, this, highScoreManager);
+        this.gameOverManager = new GameOverManager(this, highScoreManager, scoreManager);
         obstacleFactory = new ObstacleFactory(canvas.getWidth(), canvas.getHeight(), this);
         shipFactory = new ShipFactory(canvas.getWidth(), canvas.getHeight(), this);
         screenManager = new ScreenManager(draw, canvas);
@@ -47,29 +50,27 @@ public class GameManager {
 
     }
 //Editing
-    public void run(){
-   
+public void run() {
+    // Handle menu drawing
     if (menuManager.getCurrentState() == GameState.MENU) {
-            menuManager.drawMenu();
-        } else if (currentState == GameState.RUNNING) {
-             for (GameObject gameObject: gameObjects) {
-            gameObject.update();    
-            updateObstacleSpawnTimer(); 
-        }
-        gameObjects.addAll(toAdd);
-        gameObjects.removeAll(toDelete);
-        toAdd.clear();
-        toDelete.clear();
-
-        collisionManager.collide(gameObjects);
-
-        screenManager.clear();
-        screenManager.draw(gameObjects);
-        scoreManager.drawScore(screenManager.getGraphicsContext());
-        }
-    
-      
+        menuManager.drawMenu();
+        return; // Skip game logic if in menu
     }
+
+    // Update game objects and check collisions
+    for (GameObject gameObject : new ArrayList<>(gameObjects)) {
+        gameObject.update();
+    }
+    collisionManager.collide(new ArrayList<>(gameObjects));
+
+    // Process objects to add or remove after updates and collision checks
+    processGameObjects();
+
+    // Update the screen
+    screenManager.clear();
+    screenManager.draw(gameObjects);
+    scoreManager.drawScore(screenManager.getGraphicsContext());
+}
 
     public void incrementScore(int points) {
         scoreManager.addScore(points);
@@ -124,16 +125,35 @@ public class GameManager {
     }
     }
 
+    
+    public void resetGame() {
+        // Logic to reset the game
+        gameObjects.clear();
+        players.clear();
+        // Additional reset logic as needed
+    }
+
+    public void setCurrentState(GameState state) {
+        this.currentState = state;
+    }
+
     public ArrayList<Ship> getPlayers() {
         return players;
     }
 
+    private void processGameObjects() {
+        gameObjects.addAll(gameObjectsToAdd);
+        gameObjectsToAdd.clear();
+        gameObjects.removeAll(gameObjectsToRemove);
+        gameObjectsToRemove.clear();
+    }
+
     public void  addObject(GameObject object) {
-        toAdd.add(object);
+        gameObjectsToAdd.add(object);
     }
 
     public void  removeObject(GameObject object) {
-        toDelete.add(object);
+        gameObjectsToRemove.add(object);
     }
 
     public void startGame() {
@@ -145,4 +165,11 @@ public class GameManager {
         System.out.println("Difficulty now set to: " + difficulty); 
     }
 
+    public GameOverManager getGameOverManager() {
+        return gameOverManager;
+    }
+    
+    public void displayGameOverScreen() {
+        screenManager.displayGameOver(scoreManager.getScore());
+    }
 }
