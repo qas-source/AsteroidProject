@@ -12,6 +12,7 @@ public class Ship extends GameObject{
 
      private boolean previousShooting = false;
      private Gun gun;
+     private boolean isSpacePressed = false;
 
 
 
@@ -36,15 +37,16 @@ public class Ship extends GameObject{
             angularAcc -= 0.5;
         } if (input.contains("RIGHT")){
             angularAcc += 0.5;
-        } if (input.contains("SPACE")){
-            if (!previousShooting){
+        }   if (input.contains("SPACE")) {
+            if (!isSpacePressed) {
                 gun.shoot(x, y, angle, screenWidth, screenHeight, "Bullet");
-                previousShooting = true; //TODO make it only shoot once per click
-            } else {
-                previousShooting = false;
+                isSpacePressed = true;
             }
+        } else {
+            isSpacePressed = false;
         }
     }
+    
 
     @Override
     public void update() {
