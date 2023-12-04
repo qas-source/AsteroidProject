@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameObject implements Drawable, Collidable{
+public abstract class GameObject implements Drawable, Collidable{
 
     protected final double screenWidth;
 
@@ -124,37 +124,11 @@ public class GameObject implements Drawable, Collidable{
     }
 }
 
-@Override
-public void collided(String identification) {
-    if (this instanceof Asteroid || this instanceof Alien) {
-        if (!identification.equals("Ship")) {
-            initiateSplit();
-        }
-    }
-}
-//WORKING ON
-private void splitObject() {
-    Vector[] vertices = getVertecies();
-    Vector[] newVertices = new Vector[vertices.length];
-
-    for (int i = 0; i < vertices.length; i++) {
-        Vector start = vertices[i];
-        Vector end = vertices[(i + 1) % vertices.length];
-        Vector midPoint = new Vector((start.x + end.x) / 2, (start.y + end.y) / 2);
-
-        Vector splitVector = midPoint.sub(center).normalize().multiply(splitSpeed);
-        newVertices[i] = start.add(splitVector);
-        newVertices[(i + 1) % vertices.length] = end.add(splitVector);
+    @Override
+    public void collided(String identification) {
+        
     }
 
-    customVertices = new ArrayList<>(Arrays.asList(newVertices));
-}
-    
-protected void initiateSplit() {
-    if (this instanceof Asteroid || this instanceof Alien) {
-        asset.splitObject();
-    }
-}
 
     @Override
     public String getIdentification() {

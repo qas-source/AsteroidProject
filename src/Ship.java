@@ -97,7 +97,8 @@ public class Ship extends GameObject{
         flashRed();
 
         if (hitCount >= maxHits) {
-            gameManager.getGameOverManager().endGame();
+            asset.splitObject();
+            gameOver();
         }
     }
 

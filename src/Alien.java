@@ -84,7 +84,7 @@ public class Alien extends GameObject {
 
     @Override
     public void collided(String identification) {
-        if (identification.matches("Ship")) {
+        if (identification.matches("Ship") || identification.matches("Asteroid") || identification.matches("Alien")) {
             asset.setColor(Color.DARKGREEN);
         } else {
             asset.setColor(Color.CYAN);

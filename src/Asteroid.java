@@ -36,12 +36,13 @@ public class Asteroid extends GameObject{
 
     @Override
     public void collided(String indentification) {
-        if (indentification.matches("Ship")){
+        if (indentification.matches("Asteroid") ||indentification.matches("Alien")){
+            return;
+        }else if (indentification.matches("Ship")){
             asset.setColor(Color.RED);
-            initiateSplit();
+            asset.splitObject();
         } else {
             asset.setColor(Color.BLUEVIOLET);
-            initiateSplit();
             gameManager.incrementScore(1);
             asset.splitObject();
         }
