@@ -87,6 +87,13 @@ public class Ship extends GameObject{
 
     @Override
     public void collided(String identification) {
+
+        if (identification.equals("PowerUp")){
+            System.out.println("PoWERR");
+            hitCount = 0;
+            return;
+        }
+
         if (identification.equals("Bullet") || isInvulnerable) {
             return;
         }

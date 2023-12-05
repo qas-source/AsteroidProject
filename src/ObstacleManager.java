@@ -10,12 +10,12 @@ public class ObstacleManager {
     private GameManager gameManager;
 
     private Random random = new Random();
-    private int[][] difficultyPools = { //Defines obstacles based on difficulty.
-            {1, 1, 1, 1, 1, 1, 1, 2, 3, 0},
-            {1, 1, 1, 1, 1, 2, 2, 3, 3, 0},
-            {1, 1, 1, 2, 2, 2, 3, 3, 3, 0},
+    private int[][] difficultyPools = {
+            {1, 1, 1, 1, 1, 1, 1, 2, 3},
+            {1, 1, 1, 1, 1, 2, 2, 3, 3},
+            {1, 1, 1, 2, 2, 2, 3, 3, 3},
     };
-    //Defines growthrate depending on difficulty.
+
     private final int easyThreshold = 8;
     private final int mediumThreshold = 5;
     private final int hardThreshold = 3;
@@ -24,20 +24,20 @@ public class ObstacleManager {
     private final int hardGrowth = 6;
 
     private int obstacleCount = 0;
-    // Constructor initializes obstacle manager.
+
     public ObstacleManager(Difficulty difficulty, double screenWidth, double screenHeight, GameManager gameManager) {
         this.difficulty = difficulty;
         this.gameManager = gameManager;
         obstacleFactory = new ObstacleFactory(screenWidth, screenHeight, gameManager);
     }
-    // Initializes the game with a set of obstacles based on the difficulty.
+
     public ArrayList<GameObject> init() {
         ArrayList<GameObject> gameObjects = new ArrayList<>();
-    // Adds initial set of obstacles to the game.
+
         for (int i = 0; i < 10; i++) {
             gameObjects.add(obstacleFactory.makeObstacle(1));
         }
-    //Adds different types of obstacles.
+
         for (int i = 0; i < 1; i++) {
             gameObjects.add(obstacleFactory.makeObstacle(2));
         }
@@ -47,10 +47,10 @@ public class ObstacleManager {
         return gameObjects;
     }
 
-    public ArrayList<GameObject> update() { // Updates the obstacles in the game based on the current difficulty.
+    public ArrayList<GameObject> update() {
         ArrayList<GameObject> gameObjects = new ArrayList<>();
 
-        //New obstacles depending on the difficulty.
+
         switch (difficulty) {
             case EASY:
                 if (obstacleCount - gameManager.getObjectCount() >= easyThreshold) {
