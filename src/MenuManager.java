@@ -21,7 +21,6 @@ public class MenuManager {
     }
     
     public void drawMenu() {
-        System.out.println("Drawing Menu");
         // Clear the screen and draw the menu
         draw.clearRect(0, 0, 1000, 700); // Assuming canvas size, adjust as necessary
         draw.setFill(Color.BLACK);
@@ -31,9 +30,33 @@ public class MenuManager {
         draw.setFont(new Font(24)); // Set the font for the text
         draw.fillText("Press S to Start", 100, 100);
         draw.setFont(new Font(18)); // Change the font size for other options
+
+        if (gameManager.getDifficulty() == Difficulty.EASY){
+            draw.setFill(Color.GOLD);
+        } else {
+            draw.setFill(Color.WHITE);
+        }
+
         draw.fillText("1: Easy", 100, 140);
+
+        if (gameManager.getDifficulty() == Difficulty.MEDIUM){
+            draw.setFill(Color.GOLD);
+        } else {
+            draw.setFill(Color.WHITE);
+        }
+
         draw.fillText("2: Medium", 100, 180);
+
+        if (gameManager.getDifficulty() == Difficulty.HARD){
+            draw.setFill(Color.GOLD);
+        } else {
+            draw.setFill(Color.WHITE);
+        }
+
         draw.fillText("3: Hard", 100, 220);
+
+        draw.setFill(Color.WHITE);
+
         draw.fillText("High Score: " + highScoreManager.getHighScore(), 100, 260);
     }
 
@@ -43,16 +66,13 @@ public class MenuManager {
                 currentState = GameState.RUNNING;
                 gameManager.startGame();
             }
-            if (input.contains("1")) {
-                System.out.println("Difficulty set to EASY"); 
+            if (input.contains("DIGIT1")) {
                 gameManager.setDifficulty(Difficulty.EASY);
             }
-            if (input.contains("2")) {
-                System.out.println("Difficulty set to MEDIUM"); 
+            if (input.contains("DIGIT2")) {
                 gameManager.setDifficulty(Difficulty.MEDIUM);
             }
-            if (input.contains("3")) {
-                System.out.println("Difficulty set to HARD"); 
+            if (input.contains("DIGIT3")) {
                 gameManager.setDifficulty(Difficulty.HARD);
             }
         }

@@ -25,7 +25,7 @@ public class ObstacleFactory {
     public GameObject makeObstacle(int level) { //Add level system
         GameObject obstacle = null;
 
-        if (level == 1) {
+        if (level == 1 || level == 3) {
             obstacle = makeAsteroid();
         } else if (level == 2) {
             obstacle = makeAlien();
