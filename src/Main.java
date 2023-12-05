@@ -2,7 +2,6 @@ package src;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -12,49 +11,62 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+
 /**
- * Main run class of the program, sets up the javaFx window
+ * Main run class of the program, sets up the JavaFX window.
+ * This class is responsible for initializing the game and handling the main game loop.
  *
  * @author Qasim Ebsim and Riley So
  * @version Mon Dec 4, 2023
  */
 public class Main extends Application {
-    GameManager gameManager;
+    private GameManager gameManager;
+    private Stage stage;
+    private Canvas canvas;
+    private GraphicsContext gc;
+    private Scene scene;
+    private HighScoreManager highScoreManager;
+    private ArrayList<String> input;
 
     /**
-     * Main function of the game
-     * @param args
+     * Main function of the game.
+     * @param args Command line arguments.
      */
     public static void main(String[] args) {
         launch(args);
     }
+
     @Override
     public void start(Stage stage) {
+        this.stage = stage;
         stage.setTitle("Asteroids");
-        Canvas canvas = new Canvas(1000, 700); // Creates canvas for game
+        setupGame();
 
-        // You only need one GraphicsContext variable
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        // Start the main game loop using an AnimationTimer.
+        new AnimationTimer() {
+            public void handle(long currentNanoTime) {
+                gameManager.run();
+                gameManager.controls(input);
+            }
+        }.start();
 
-        // Fill the canvas background
+        // Show the stage to make the window visible.
+        stage.show();
+    }
+
+
+    public void setupGame() {
+        // Initialize the input list for handling keyboard inputs.
+        input = new ArrayList<>();
+        canvas = new Canvas(1000, 700);
+        gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Create a Group and add the canvas to it
         Group group = new Group(canvas);
+        scene = new Scene(group, canvas.getWidth(), canvas.getHeight());
 
-        // Instantiate HighScoreManager only once
-        HighScoreManager highScoreManager = new HighScoreManager();
-
-        // Create GameManager with the GraphicsContext and HighScoreManager
-        gameManager = new GameManager(gc, canvas, highScoreManager);
-
-        // Create a scene and set it to the stage
-        Scene scene = new Scene(group, canvas.getWidth(), canvas.getHeight());
-        stage.setScene(scene);
-
-        // Setup keyboard input handling
-        ArrayList<String> input = new ArrayList<>();
+        // Set up the keyboard input event handlers.
         scene.setOnKeyPressed(e -> {
             String code = e.getCode().toString();
             if (!input.contains(code))
@@ -65,18 +77,11 @@ public class Main extends Application {
             input.remove(code);
         });
 
-        // Start the game loop
-        new AnimationTimer() {
-            @Override
-            public void handle(long currentNanoTime) {
-                gameManager.run();
-                gameManager.controls(input);
-            }
-        }.start();
+        // Initialize HighScoreManager and GameManager, and attach them to the scene.
+        highScoreManager = HighScoreManager.getInstance();
+        gameManager = new GameManager(gc, canvas, highScoreManager, this::setupGame);
 
-        // Show the stage
-        stage.show();
+        // Apply the scene to the stage.
+        stage.setScene(scene);
     }
-
-
 }

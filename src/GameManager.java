@@ -31,16 +31,16 @@ public class GameManager {
     private List<GameObject> gameObjectsToAdd = new ArrayList<>();
     private List<GameObject> gameObjectsToRemove = new ArrayList<>();
     private boolean isGameOverScreenVisible = false;
-
+    private Runnable resetAction; // Reset Action
     /**
      * Constructor for the gamaManager
      * @param draw, graphics context of the canvas
      * @param canvas, canvas that is used as a screen
      * @param highScoreManager, the highs-core manager
      */
-    public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager){
-
-        this.currentState = GameState.MENU; // Starts in menu
+    public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager, Runnable resetAction){
+        this.resetAction = resetAction;
+        // Starts in menu
 
         this.scoreManager = new ScoreManager(); // Sets up managers and factories
         this.menuManager = new MenuManager(draw, this, highScoreManager);
@@ -103,10 +103,10 @@ public class GameManager {
     }
 
 
-    /**
-     * Calls the input function for all gameObjects
-     * @param input, array of inputs form main
-     */
+        /**
+         * Calls the input function for all gameObjects
+         * @param input, array of inputs form main
+         */
     public void controls(ArrayList<String> input){
         if (menuManager.getCurrentState() == GameState.MENU) {
             menuManager.handleInput(input);
@@ -128,9 +128,14 @@ public class GameManager {
     }
     public void resetGame() {
         // Logic to reset the game
-        setCurrentState(GameState.MENU);
+        if (resetAction != null) {
+            resetAction.run();
+        } else {
+            System.out.println("Failed Reset");
+        }
+      /*  setCurrentState(GameState.MENU);
         gameObjects.clear();
-        players.clear();
+        players.clear(); */
         // Additional reset logic as needed
     }
 
