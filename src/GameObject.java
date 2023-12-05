@@ -86,6 +86,11 @@ public abstract class GameObject implements Drawable, Collidable{
         y += velY;
 
         loopEdge();
+
+        if (asset.isSplittingComplete()) {
+            gameManager.removeObject(this); // Remove the object after it splits
+        }
+
     }
 
     private void loopEdge() {
@@ -102,7 +107,7 @@ public abstract class GameObject implements Drawable, Collidable{
     }
 
     @Override
-  public Vector[] getVertecies() {
+  public Vector[] getVertices() {
     if (customVertices != null) {
         // Use custom vertices for split objects
         return customVertices.toArray(new Vector[0]);

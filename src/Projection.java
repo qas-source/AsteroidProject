@@ -6,7 +6,7 @@ public class Projection {
     public double min;
 
     public Projection(Collidable object, Vector axis){
-        Vector[] vertices = object.getVertecies();
+        Vector[] vertices = object.getVertices();
         min = axis.dot(vertices[0]);
         max = min;
 

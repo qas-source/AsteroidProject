@@ -1,5 +1,11 @@
 package src;
 
+/**
+ * Interface for drawing objects
+ *
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
+ */
 public interface Drawable {
     //function to draw
 
@@ -11,9 +17,6 @@ public interface Drawable {
    double getAngle();
 
    Asset getAsset();
-
-
-    // refersh screen
 
 
 }

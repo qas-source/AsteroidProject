@@ -67,7 +67,7 @@ public class ObstacleFactory {
 
         double angle = random.nextDouble(360);
 
-        double spin = random.nextDouble(0.5, 4);
+        double spin = random.nextDouble(0.5, 4) * ((random.nextInt(2) + 1) * 2 - 3);
 
         double velocity = random.nextDouble(0.25, 3);
 

@@ -8,27 +8,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Manages the over all game logic
+ *
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
+ */
 public class GameManager {
 
-    private GameState currentState = GameState.MENU; // Add this line
-    private final ScreenManager screenManager;
-    private ShipFactory shipFactory;
-    private ObstacleManager obstacleManager;
-    private final CollisionManager collisionManager = new CollisionManager();
-    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private ArrayList<Ship> players = new ArrayList<>();
+    private GameState currentState = GameState.MENU; // Current State of the game
+    private final ScreenManager screenManager; // Renders the gameOjects
+    private final ShipFactory shipFactory; // Used to generate ships
+    private final ObstacleManager obstacleManager; // Used to generate obstacles
+    private final CollisionManager collisionManager = new CollisionManager(); // Handles collisions
+    private final ArrayList<GameObject> gameObjects = new ArrayList<>(); // Contains all objects on scree
+    private ArrayList<Ship> players = new ArrayList<>(); // List of players
     private MenuManager menuManager;
     private Difficulty difficulty = Difficulty.EASY;
-    private int obstacleSpawnTimer = 0;
     private ScoreManager scoreManager;
     private HighScoreManager highScoreManager;
     private GameOverManager gameOverManager;
     private List<GameObject> gameObjectsToAdd = new ArrayList<>();
     private List<GameObject> gameObjectsToRemove = new ArrayList<>();
 
+    /**
+     * Constructor for the gamaManager
+     * @param draw, graphics context of the canvas
+     * @param canvas, canvas that is used as a screen
+     * @param highScoreManager, the highs-core manager
+     */
     public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager){
-        this.currentState = GameState.MENU;
-        this.scoreManager = new ScoreManager();
+
+        this.currentState = GameState.MENU; // Starts in menu
+
+        this.scoreManager = new ScoreManager(); // Sets up managers and factories
         this.highScoreManager = highScoreManager;
         this.menuManager = new MenuManager(draw, this, highScoreManager);
         this.gameOverManager = new GameOverManager(this, highScoreManager, scoreManager);
@@ -40,33 +53,40 @@ public class GameManager {
         players.add(shipFactory.makeShip(200, 200));
         gameObjects.addAll(players);
 
-        gameObjects.addAll(obstacleManager.init());
+        gameObjects.addAll(obstacleManager.init()); // Initialises the game
 
     }
-//Editing
-public void run() {
-    // Handle menu drawing
-    if (menuManager.getCurrentState() == GameState.MENU) {
-        menuManager.drawMenu();
-        return; // Skip game logic if in menu
+
+    /**
+     * The frame to frame loop of the games, calls various update functions
+     */
+    public void run() {
+        // Handle menu drawing
+        if (menuManager.getCurrentState() == GameState.MENU) {
+            menuManager.drawMenu();
+            return; // Skip game logic if in menu
+        }
+
+        // Update game objects and check collisions
+        for (GameObject gameObject : new ArrayList<>(gameObjects)) {
+            gameObject.update();
+        }
+        collisionManager.collide(new ArrayList<>(gameObjects));
+        gameObjects.addAll(obstacleManager.update());
+
+        // Process objects to add or remove after updates and collision checks
+        processGameObjects();
+
+        // Update the screen
+        screenManager.clear();
+        screenManager.draw(gameObjects);
+        scoreManager.drawScore(screenManager.getGraphicsContext());
     }
 
-    // Update game objects and check collisions
-    for (GameObject gameObject : new ArrayList<>(gameObjects)) {
-        gameObject.update();
-    }
-    collisionManager.collide(new ArrayList<>(gameObjects));
-    gameObjects.addAll(obstacleManager.update());
-
-    // Process objects to add or remove after updates and collision checks
-    processGameObjects();
-
-    // Update the screen
-    screenManager.clear();
-    screenManager.draw(gameObjects);
-    scoreManager.drawScore(screenManager.getGraphicsContext());
-}
-
+    /**
+     * Increments the score
+     * @param points, point value
+     */
     public void incrementScore(int points) {
         scoreManager.addScore(points);
     }
@@ -77,6 +97,11 @@ public void run() {
             highScoreManager.setHighScore(currentScore);
         }
     }
+
+    /**
+     * Calls the input function for all gameObjects
+     * @param input, array of inputs form main
+     */
     public void controls(ArrayList<String> input){
         if (menuManager.getCurrentState() == GameState.MENU) {
             menuManager.handleInput(input);
@@ -87,7 +112,9 @@ public void run() {
     }
     }
 
-    
+    /**
+     * Resets the game
+     */
     public void resetGame() {
         // Logic to reset the game
         gameObjects.clear();
@@ -95,10 +122,18 @@ public void run() {
         // Additional reset logic as needed
     }
 
+    /**
+     * Sets current game state
+     * @param state, new game state
+     */
     public void setCurrentState(GameState state) {
         this.currentState = state;
     }
 
+    /**
+     * Gets list of players
+     * @return the list of players
+     */
     public ArrayList<Ship> getPlayers() {
         return players;
     }
