@@ -84,7 +84,7 @@ public class GameManager {
         // Process objects to add or remove after updates and collision checks
         processGameObjects();
 
-        if (gameOverManager.isGameOver()) {
+        if (gameOverManager.isGameOver()) { // Checks if game is over after collisions to prevent from screen clear
             return;
         }
 
