@@ -145,7 +145,6 @@ public class Ship extends GameObject{
     private void gameOver() {
         // Game over logic
         int currentScore = gameManager.getScoreManager().getScore();
-        gameManager.getGameOverManager().showGameOverScreen(currentScore);
-        gameManager.endGame();
+        gameManager.getGameOverManager().endGame(currentScore);
     }
 }

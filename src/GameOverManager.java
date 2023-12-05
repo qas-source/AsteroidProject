@@ -17,27 +17,10 @@ public class GameOverManager {
 
     }
 
-    public void endGame() {
+
+    public void endGame(int score) {
         isGameOver = true;
-        // Save high score
-        checkAndUpdateHighScore();
-
-        // Display game over screen
-        gameManager.displayGameOverScreen();
-
-        // Schedule return to main menu
-        new java.util.Timer().schedule(
-            new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    gameManager.setCurrentState(GameState.MENU);
-                    gameManager.resetGame();
-                }
-            },
-            3000 // Delay before returning to the main menu (in milliseconds)
-        );
-    }
-    public void showGameOverScreen(int score) {
+        System.out.println("GAMEOVER");
         graphicsContext.clearRect(0, 0, 800, 600); // Adjust to your canvas size
         graphicsContext.setFill(Color.RED);
         graphicsContext.setFont(new Font("Arial", 20));

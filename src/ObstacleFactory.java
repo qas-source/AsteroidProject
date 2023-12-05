@@ -97,7 +97,7 @@ public class ObstacleFactory {
             y = -20;
         }
         Asteroid newAsteroid;
-        if (level == 1) { // weird Asteroid
+        if (level == 2) { // weird Asteroid
             newAsteroid = new AsteroidWeird(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
             asteroidAsset.setColor(Color.WHEAT);
         } else { // Normal

@@ -75,11 +75,18 @@ public class GameManager {
         for (GameObject gameObject : new ArrayList<>(gameObjects)) {
             gameObject.update();
         }
+
+
+
         collisionManager.collide(new ArrayList<>(gameObjects));
         gameObjects.addAll(obstacleManager.update());
 
         // Process objects to add or remove after updates and collision checks
         processGameObjects();
+
+        if (gameOverManager.isGameOver()) {
+            return;
+        }
 
         // Update the screen
         screenManager.clear();
@@ -192,13 +199,6 @@ public class GameManager {
         return gameOverManager;
     }
 
-    /**
-     * Displays a gameOver state
-     */
-    public void displayGameOverScreen() {
-        screenManager.displayGameOver(scoreManager.getScore());
-    }
-
 
     public int getObjectCount() {
         return gameObjects.size();
@@ -210,7 +210,4 @@ public class GameManager {
         return difficulty;
     }
 
-    public void endGame() {
-        gameOverManager.endGame();
-    }
 }
