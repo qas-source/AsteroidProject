@@ -3,14 +3,20 @@ package src;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Manages the obstacle generation
+ *
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
+ */
 public class ObstacleManager {
 
-    private ObstacleFactory obstacleFactory;
-    private Difficulty difficulty;
-    private GameManager gameManager;
+    private final ObstacleFactory obstacleFactory;
+    private final Difficulty difficulty;
+    private final GameManager gameManager;
 
-    private Random random = new Random();
-    private int[][] difficultyPools = {
+    private final Random random = new Random();
+    private int[][] difficultyPools = { // Waiting of probabilities for different difficulties
             {1, 1, 1, 1, 1, 1, 1, 2, 3},
             {1, 1, 1, 1, 1, 2, 2, 3, 3},
             {1, 1, 1, 2, 2, 2, 3, 3, 3},
@@ -31,6 +37,10 @@ public class ObstacleManager {
         obstacleFactory = new ObstacleFactory(screenWidth, screenHeight, gameManager);
     }
 
+    /**
+     * Initialises the first screen of asteroids
+     * @return a list of obstacles
+     */
     public ArrayList<GameObject> init() {
         ArrayList<GameObject> gameObjects = new ArrayList<>();
 
@@ -47,11 +57,15 @@ public class ObstacleManager {
         return gameObjects;
     }
 
+    /**
+     * Generates new obstacles when the count goes bellow a threshold
+     * @return new obstacles
+     */
     public ArrayList<GameObject> update() {
         ArrayList<GameObject> gameObjects = new ArrayList<>();
 
 
-        switch (difficulty) {
+        switch (difficulty) { // For any difficulty, checks if count is bellow threshold, then add its respective growth amount
             case EASY:
                 if (obstacleCount - gameManager.getObjectCount() >= easyThreshold) {
 

@@ -6,7 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Generates new obstacles
+ *
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
+ */
 public class ObstacleFactory {
     private double screenWidth;
 
@@ -22,7 +27,12 @@ public class ObstacleFactory {
         this.gameManager = gameManager;
     }
 
-    public GameObject makeObstacle(int level) { //Add level system
+    /**
+     * Returns new obstacle
+     * @param level
+     * @return
+     */
+    public GameObject makeObstacle(int level) {
         GameObject obstacle = null;
         if (level == 0) {
             obstacle = makePowerUp();
@@ -37,9 +47,14 @@ public class ObstacleFactory {
         return obstacle;
     }
 
+    /**
+     * Generates new random asteroid
+     * @param level, toggles between normal (1) and weird (2)
+     * @return the new asteroid
+     */
     public Asteroid makeAsteroid(int level) { //Add level system
 
-     // Create a list to store lines
+        // Create a list to store lines
         List<Line> lines = new ArrayList<>();
 
         // Define the number of sides for the asteroid
@@ -67,7 +82,7 @@ public class ObstacleFactory {
 
         double angle = random.nextDouble(360);
 
-        double spin = random.nextDouble(0.5, 4) * ((random.nextInt(2) + 1) * 2 - 3);
+        double spin = random.nextDouble(0.5, 4) * ((random.nextInt(2) + 1) * 2 - 3); // Generates a random spin
 
         double velocity = random.nextDouble(0.25, 3);
 
@@ -82,17 +97,21 @@ public class ObstacleFactory {
             y = -20;
         }
         Asteroid newAsteroid;
-        if (level == 1) {
-            newAsteroid = new Asteroid(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
-        } else {
+        if (level == 1) { // weird Asteroid
             newAsteroid = new AsteroidWeird(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
             asteroidAsset.setColor(Color.WHEAT);
+        } else { // Normal
+            newAsteroid = new Asteroid(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
         }
         newAsteroid.setAsset(asteroidAsset);
 
         return newAsteroid;
     }
 
+    /**
+     * Generates new random alien
+     * @return the new alien
+     */
     private GameObject makeAlien(){
         //Asteroid Shape TODO improve shape
         Line[] lines = {
@@ -132,7 +151,10 @@ public class ObstacleFactory {
 
     }
 
-
+    /**
+     * Generates a new powerUp
+     * @return a new powerUp
+     */
     private GameObject makePowerUp() {
         Line[] lines = {
                 new Line(10, 0, 4, 4),

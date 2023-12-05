@@ -5,6 +5,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font; // Import statement for Font
 import java.util.ArrayList;
 
+/**
+ * Smallest drawn unit
+ *
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
+ */
 public class MenuManager {
 
     private GameManager gameManager;
@@ -19,7 +25,10 @@ public class MenuManager {
         this.currentState = GameState.MENU;
         this.highScoreManager = highScoreManager;
     }
-    
+
+    /**
+     * Draws the menu
+     */
     public void drawMenu() {
         // Clear the screen and draw the menu
         draw.clearRect(0, 0, 1000, 700); // Assuming canvas size, adjust as necessary
@@ -31,7 +40,7 @@ public class MenuManager {
         draw.fillText("Press S to Start", 100, 100);
         draw.setFont(new Font(18)); // Change the font size for other options
 
-        if (gameManager.getDifficulty() == Difficulty.EASY){
+        if (gameManager.getDifficulty() == Difficulty.EASY){ // Sets the selected value as colored
             draw.setFill(Color.GOLD);
         } else {
             draw.setFill(Color.WHITE);
@@ -60,6 +69,10 @@ public class MenuManager {
         draw.fillText("High Score: " + highScoreManager.getHighScore(), 100, 260);
     }
 
+    /**
+     * Handles inputs for starting and selecting difficulty
+     * @param input
+     */
     public void handleInput(ArrayList<String> input) {
         if (currentState == GameState.MENU) {
             if (input.contains("S")) {

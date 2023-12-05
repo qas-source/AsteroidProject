@@ -27,7 +27,6 @@ public class GameManager {
     private MenuManager menuManager;
     private Difficulty difficulty = Difficulty.EASY;
     private ScoreManager scoreManager;
-    private HighScoreManager highScoreManager;
     private GameOverManager gameOverManager;
     private List<GameObject> gameObjectsToAdd = new ArrayList<>();
     private List<GameObject> gameObjectsToRemove = new ArrayList<>();
@@ -44,7 +43,6 @@ public class GameManager {
         this.currentState = GameState.MENU; // Starts in menu
 
         this.scoreManager = new ScoreManager(); // Sets up managers and factories
-        this.highScoreManager = highScoreManager;
         this.menuManager = new MenuManager(draw, this, highScoreManager);
         this.gameOverManager = new GameOverManager(this, highScoreManager, scoreManager, draw);
 
@@ -67,6 +65,10 @@ public class GameManager {
         if (menuManager.getCurrentState() == GameState.MENU) {
             menuManager.drawMenu();
             return; // Skip game logic if in menu
+        }
+
+        if (gameOverManager.isGameOver()) {
+            return;
         }
 
         // Update game objects and check collisions
@@ -93,12 +95,6 @@ public class GameManager {
         scoreManager.addScore(points);
     }
 
-    public void checkAndUpdateHighScore() {
-        int currentScore = scoreManager.getScore();
-        if (currentScore > highScoreManager.getHighScore()) {
-            highScoreManager.setHighScore(currentScore);
-        }
-    }
 
     /**
      * Calls the input function for all gameObjects
@@ -111,19 +107,14 @@ public class GameManager {
         for (GameObject object: gameObjects) {
             object.controls(input);
         }
+        if (isGameOverScreenVisible) {
+                // Reset the game and hide the game over screen
+                resetGame();
+                setGameOverScreenVisible(false);
+            }
     }
     }
 
-    /**
-     * Resets the game
-     */
-    public void handleInput(KeyEvent keyEvent) {
-        if (isGameOverScreenVisible) {
-            // Reset the game and hide the game over screen
-            resetGame();
-            setGameOverScreenVisible(false);
-        }
-    }
 
     public void setGameOverScreenVisible(boolean isVisible) {
         this.isGameOverScreenVisible = isVisible;
@@ -152,6 +143,9 @@ public class GameManager {
         return players;
     }
 
+    /**
+     * Handles request for adding and removing gameObjects
+     */
     private void processGameObjects() {
         gameObjects.addAll(gameObjectsToAdd);
         gameObjectsToAdd.clear();
@@ -159,26 +153,48 @@ public class GameManager {
         gameObjectsToRemove.clear();
     }
 
+    /**
+     * Request for an object to be added
+     * @param object, object to be added to gameObjects
+     */
     public void  addObject(GameObject object) {
         gameObjectsToAdd.add(object);
     }
 
+    /**
+     * Request for an object to be removed
+     * @param object, object to be removed from gameObjects
+     */
     public void  removeObject(GameObject object) {
         gameObjectsToRemove.add(object);
     }
 
+    /**
+     * Starts the game
+     */
     public void startGame() {
         currentState = GameState.RUNNING;
     }
 
+    /**
+     * Set the current diffuculty
+     * @param difficulty, new difficulty
+     */
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 
+    /**
+     * Returns the game over manager
+     * @return the gameOverManager
+     */
     public GameOverManager getGameOverManager() {
         return gameOverManager;
     }
 
+    /**
+     * Displays a gameOver state
+     */
     public void displayGameOverScreen() {
         screenManager.displayGameOver(scoreManager.getScore());
     }
@@ -192,5 +208,9 @@ public class GameManager {
     }
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    public void endGame() {
+        gameOverManager.endGame();
     }
 }

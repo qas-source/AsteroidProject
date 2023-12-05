@@ -7,6 +7,7 @@ public class GameOverManager {
     private HighScoreManager highScoreManager;
     private ScoreManager scoreManager;
     private GraphicsContext graphicsContext;
+    private boolean isGameOver = false;
 
     public GameOverManager(GameManager gameManager, HighScoreManager highScoreManager, ScoreManager scoreManager, GraphicsContext gc) {
         this.gameManager = gameManager;
@@ -17,6 +18,7 @@ public class GameOverManager {
     }
 
     public void endGame() {
+        isGameOver = true;
         // Save high score
         checkAndUpdateHighScore();
 
@@ -60,8 +62,13 @@ public class GameOverManager {
     }
 
     private void resetGame() {
+        isGameOver = false;
         // Reset game state, remove all objects, etc.
         gameManager.setCurrentState(GameState.MENU);
         gameManager.resetGame();
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
     }
 }

@@ -12,17 +12,26 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-
+/**
+ * Main run class of the program, sets up the javaFx window
+ *
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
+ */
 public class Main extends Application {
     GameManager gameManager;
 
+    /**
+     * Main function of the game
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stage.setTitle("Asteroids");
-        Canvas canvas = new Canvas(1000, 700);
+        Canvas canvas = new Canvas(1000, 700); // Creates canvas for game
 
         // You only need one GraphicsContext variable
         GraphicsContext gc = canvas.getGraphicsContext2D();

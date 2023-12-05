@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 /**
  * Manages Drawing to the canvas through the drawable interface
+ * @author Qasim Ebsim and Riley So
+ * @version Mon Dec 4, 2023
  */
 public class ScreenManager {
 
@@ -23,6 +25,11 @@ public class ScreenManager {
     }
 
 // run drawable function. polymorphism!
+
+    /**
+     * Draws object on screen
+     * @param object, object that is drawn
+     */
     public void draw(Drawable object) {
         Asset asset = object.getAsset();
         double x = object.getX();
@@ -35,10 +42,10 @@ public class ScreenManager {
         //Rotate the coordinate system
         draw.translate(x, y);
         draw.rotate(angle);
-       
-//Draw the object with the center at the new origin
 
-//Draw the lines
+        //Draw the object with the center at the new origin
+
+        //Draw the lines
         draw.setStroke(asset.getColor());
         draw.setFill(asset.getColor());
         for (Line line : asset.getLines()) { //for each line in the asset line array
@@ -47,13 +54,21 @@ public class ScreenManager {
 
         draw.restore(); //restores
     }
-    
+
+    /**
+     * Draws array of objects on screen
+     * @param objects, array of objects
+     */
     public void draw(ArrayList<GameObject> objects){
         for (Drawable object: objects) {
             draw(object);
         }
     }
 
+    /**
+     * Displays the game of scree
+     * @param score, end game score
+     */
     public void displayGameOver(int score) {
         // Clear the screen
         clear();
@@ -66,7 +81,10 @@ public class ScreenManager {
         draw.fillText("Score: " + score, canvas.getWidth() / 2 - 50, canvas.getHeight() / 2);
     }
 
-//refresh
+
+    /**
+     * Resets the screen
+     */
     public void clear() {
         draw.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         draw.setFill(Color.BLACK);
