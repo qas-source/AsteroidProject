@@ -24,41 +24,39 @@ public class Main extends Application {
         stage.setTitle("Asteroids");
         Canvas canvas = new Canvas(1000, 700);
 
-        GraphicsContext draw = canvas.getGraphicsContext2D();
-        draw.setFill(Color.BLACK);
-        draw.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // You only need one GraphicsContext variable
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // create a Group
+        // Fill the canvas background
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Create a Group and add the canvas to it
         Group group = new Group(canvas);
 
+        // Instantiate HighScoreManager only once
+        HighScoreManager highScoreManager = new HighScoreManager();
 
-        // create a scene
+        // Create GameManager with the GraphicsContext and HighScoreManager
+        gameManager = new GameManager(gc, canvas, highScoreManager);
+
+        // Create a scene and set it to the stage
         Scene scene = new Scene(group, canvas.getWidth(), canvas.getHeight());
-
-        // set the scene
         stage.setScene(scene);
 
+        // Setup keyboard input handling
+        ArrayList<String> input = new ArrayList<>();
+        scene.setOnKeyPressed(e -> {
+            String code = e.getCode().toString();
+            if (!input.contains(code))
+                input.add(code);
+        });
+        scene.setOnKeyReleased(e -> {
+            String code = e.getCode().toString();
+            input.remove(code);
+        });
 
-
-        ArrayList<String> input = new ArrayList<String>();
-        scene.setOnKeyPressed(
-                e -> {
-                    String code = e.getCode().toString();
-                    // only add once... prevent duplicates
-                    if ( !input.contains(code) )
-                        input.add( code );
-                });
-        scene.setOnKeyReleased(
-                e -> {
-                    String code = e.getCode().toString();
-                    input.remove( code );
-                });
-
-                HighScoreManager highScoreManager = new HighScoreManager();
-                gameManager = new GameManager(draw, canvas, highScoreManager);
-      
-        //final long startNanoTime = System.nanoTime(); // Use to get time since started
-
+        // Start the game loop
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
@@ -67,8 +65,8 @@ public class Main extends Application {
             }
         }.start();
 
+        // Show the stage
         stage.show();
-
     }
 
 

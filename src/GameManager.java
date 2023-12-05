@@ -7,7 +7,7 @@ import src.Difficulty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+import javafx.scene.input.KeyEvent;
 public class GameManager {
 
     private GameState currentState = GameState.MENU; // Add this line
@@ -25,13 +25,14 @@ public class GameManager {
     private GameOverManager gameOverManager;
     private List<GameObject> gameObjectsToAdd = new ArrayList<>();
     private List<GameObject> gameObjectsToRemove = new ArrayList<>();
+    private boolean isGameOverScreenVisible = false;
 
-    public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager){
+    public GameManager(GraphicsContext draw, Canvas canvas, HighScoreManager highScoreManager) {
         this.currentState = GameState.MENU;
         this.scoreManager = new ScoreManager();
         this.highScoreManager = highScoreManager;
         this.menuManager = new MenuManager(draw, this, highScoreManager);
-        this.gameOverManager = new GameOverManager(this, highScoreManager, scoreManager);
+        this.gameOverManager = new GameOverManager(this, highScoreManager, scoreManager, draw);
 
         obstacleManager = new ObstacleManager(difficulty, canvas.getWidth(), canvas.getHeight(), this);
 
@@ -87,9 +88,20 @@ public void run() {
     }
     }
 
-    
+    public void handleInput(KeyEvent keyEvent) {
+        if (isGameOverScreenVisible) {
+            // Reset the game and hide the game over screen
+            resetGame();
+            setGameOverScreenVisible(false);
+        }
+    }
+
+    public void setGameOverScreenVisible(boolean isVisible) {
+        this.isGameOverScreenVisible = isVisible;
+    }
     public void resetGame() {
         // Logic to reset the game
+        setCurrentState(GameState.MENU);
         gameObjects.clear();
         players.clear();
         // Additional reset logic as needed
@@ -129,15 +141,18 @@ public void run() {
     public GameOverManager getGameOverManager() {
         return gameOverManager;
     }
-    
+
     public void displayGameOverScreen() {
         screenManager.displayGameOver(scoreManager.getScore());
     }
 
+
     public int getObjectCount() {
         return gameObjects.size();
     }
-
+    public ScoreManager getScoreManager() {
+        return this.scoreManager;
+    }
     public Difficulty getDifficulty() {
         return difficulty;
     }

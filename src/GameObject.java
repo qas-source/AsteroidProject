@@ -86,8 +86,6 @@ public abstract class GameObject implements Drawable, Collidable{
         y += velY;
 
         loopEdge();
-
-        asset.setColor(Color.WHITE);
     }
 
     private void loopEdge() {
@@ -126,7 +124,7 @@ public abstract class GameObject implements Drawable, Collidable{
 
     @Override
     public void collided(String identification) {
-        
+
     }
 
 

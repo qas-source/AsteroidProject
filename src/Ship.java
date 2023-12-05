@@ -60,12 +60,12 @@ public class Ship extends GameObject{
     public void update() {
         super.update();
         angularVel += angularAcc;
-
         angle += angularVel;
         damp();
+
         if (isInvulnerable && System.currentTimeMillis() - lastHitTime > invulnerabilityDuration) {
             isInvulnerable = false;
-            asset.setColor(normalColor); // Reset color after invulnerability
+            asset.setColor(normalColor);
         }
     }
 
@@ -88,7 +88,7 @@ public class Ship extends GameObject{
     @Override
     public void collided(String identification) {
         if (identification.equals("Bullet") || isInvulnerable) {
-            return; // Ignore collisions if invulnerable or hit by Bullet
+            return;
         }
 
         hitCount++;
@@ -97,7 +97,6 @@ public class Ship extends GameObject{
         flashRed();
 
         if (hitCount >= maxHits) {
-            asset.splitObject();
             gameOver();
         }
     }
@@ -108,6 +107,7 @@ public class Ship extends GameObject{
 
     private void gameOver() {
         // Game over logic
-        gameManager.getGameOverManager().endGame();
+        int currentScore = gameManager.getScoreManager().getScore();
+        gameManager.getGameOverManager().showGameOverScreen(currentScore);
     }
 }

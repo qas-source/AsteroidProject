@@ -24,17 +24,20 @@ public class ObstacleFactory {
 
     public GameObject makeObstacle(int level) { //Add level system
         GameObject obstacle = null;
-
-        if (level == 1 || level == 3) {
-            obstacle = makeAsteroid();
+        if (level == 0) {
+            obstacle = makePowerUp();
+        }else if (level == 1) {
+            obstacle = makeAsteroid(1);
         } else if (level == 2) {
+            obstacle = makeAsteroid(2);
+        } else if (level == 3) {
             obstacle = makeAlien();
         }
 
         return obstacle;
     }
 
-    public Asteroid makeAsteroid() { //Add level system
+    public Asteroid makeAsteroid(int level) { //Add level system
 
      // Create a list to store lines
         List<Line> lines = new ArrayList<>();
@@ -78,7 +81,13 @@ public class ObstacleFactory {
         if (y < 0) {
             y = -20;
         }
-        Asteroid newAsteroid = new Asteroid(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
+        Asteroid newAsteroid;
+        if (level == 1) {
+            newAsteroid = new Asteroid(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
+        } else {
+            newAsteroid = new AsteroidWeird(x,y, screenWidth, screenHeight, angle, spin, velocity, gameManager);
+            asteroidAsset.setColor(Color.WHEAT);
+        }
         newAsteroid.setAsset(asteroidAsset);
 
         return newAsteroid;
@@ -122,5 +131,46 @@ public class ObstacleFactory {
         return newAlien;
 
     }
+
+
+    private GameObject makePowerUp() {
+        Line[] lines = {
+                new Line(10, 0, 4, 4),
+                new Line(4, 4, 0, 10),
+                new Line(0, 10, -4, 4),
+                new Line(-4, 4, -10, 0),
+                new Line(-10, 0, -4, -4),
+                new Line(-4, -4, 0, -10),
+                new Line(0, -10, 4, -4),
+                new Line(4, -4, 10, 0)
+        };
+
+        Color color = Color.GOLD;
+
+        Asset powerUpAsset = new Asset(lines, color);
+
+
+        double angle = random.nextDouble(360);
+
+        double velocity = random.nextDouble(0.25, 3);
+
+        double position = random.nextDouble(screenHeight + screenWidth); // First loops over the x's for the top, then down the side
+
+        double x = position;
+        if (x > screenWidth) {
+            x = -20;
+        }
+        double y = position - screenWidth;
+        if (y < 0) {
+            y = -20;
+        }
+
+        PowerUp powerUp = new PowerUp(x,y, screenWidth, screenHeight, angle, velocity, gameManager);
+        powerUp.setAsset(powerUpAsset);
+
+        return powerUp;
+
+    }
+
 
 }

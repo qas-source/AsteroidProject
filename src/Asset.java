@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Asset {
     private final Line[] lines;
-    private final Vector[] vertices;
+    private Vector[] vertices;
     private Vector[] splitVectors;
     private Color color;
     private int splitDuration = 0;
@@ -68,6 +68,7 @@ public class Asset {
     }
 
     public void splitObject() {
+        vertices = new Vector[]{new Vector(0, 0), new Vector(0, 0)};
         splitting = true;
         splitDuration = 0;
         splitVectors = new Vector[lines.length];

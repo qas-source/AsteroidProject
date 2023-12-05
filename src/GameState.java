@@ -2,5 +2,6 @@ package src;
 
 public enum GameState {
     MENU,
-    RUNNING
+    RUNNING,
+    GAME_OVER
 }
