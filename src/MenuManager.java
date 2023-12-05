@@ -75,6 +75,12 @@ public class MenuManager {
             if (input.contains("DIGIT3")) {
                 gameManager.setDifficulty(Difficulty.HARD);
             }
+            if (currentState == GameState.GAME_OVER) {
+                if (input.contains("CONTINUE")) {
+                    currentState = GameState.MENU;
+                    gameManager.resetGame();
+                }
+            }
         }
     }
 

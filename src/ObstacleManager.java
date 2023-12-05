@@ -11,9 +11,9 @@ public class ObstacleManager {
 
     private Random random = new Random();
     private int[][] difficultyPools = {
-            {1, 1, 1, 1, 1, 1, 1, 2, 3, 0},
-            {1, 1, 1, 1, 1, 2, 2, 3, 3, 0},
-            {1, 1, 1, 2, 2, 2, 3, 3, 3, 0},
+            {1, 1, 1, 1, 1, 1, 1, 2, 3},
+            {1, 1, 1, 1, 1, 2, 2, 3, 3},
+            {1, 1, 1, 2, 2, 2, 3, 3, 3},
     };
 
     private final int easyThreshold = 8;
